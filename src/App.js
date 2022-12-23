@@ -17,6 +17,7 @@ function App() {
         <Route path='/productitem' exact component={ProductItem} />
         <Route path='/contact' exact component={Contact} />
         <Route path='/check-out' exact component={Checkout} />
+        
       </div>
     </BrowserRouter>
   );
