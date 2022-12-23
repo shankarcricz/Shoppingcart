@@ -10,3 +10,11 @@ export const fetchProducts = () => async (dispatch, getState) => {
         payload : response.data 
     })
 }
+
+export const fetchProd = (id) => async (dispatch) => {
+    const response = await axios.get(URL + `/${id}`);
+    dispatch({
+        type : 'FETCH_PROD',
+        payload : response.data
+    })
+}
