@@ -3,9 +3,10 @@ import { fetchProd } from "./fetchProd";
 import { fetchProdReducer } from "./fetchProdReducer";
 
 
+
 const reducers = combineReducers({
     Products : fetchProdReducer,
-    Product : fetchProd
+    Product : fetchProd,
 })
 
 export default reducers;

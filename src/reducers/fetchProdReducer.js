@@ -1,10 +1,10 @@
 
 
 
-export const fetchProdReducer = (state=[], action) => {
+export const fetchProdReducer = (state={product:[]}, action) => {
     switch(action.type){
         case 'FETCH_PRODS':
-            return [ action.payload];
+            return {...state, product : action.payload};
         default:
             return state;
     }
