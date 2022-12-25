@@ -5,7 +5,14 @@ import products from './Products';
 import ProductItem from './ProductItem';
 import Navbar from './Navbar';
 import Contact from './Contact';
+
+
 import Checkout from './Checkout';
+
+
+
+
+
 
 function App() {
   return (

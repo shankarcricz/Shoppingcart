@@ -26,3 +26,25 @@ export const removeProd = () => (dispatch) => {
         type:'REMOVE_PROD',
     })
 }
+
+export const addCart = (form) => (dispatch) => {
+    dispatch({
+        type:'ADD_TO_CART',
+        payload:form
+
+    })
+}
+
+export const getCart = () => (dispatch) => {
+    dispatch({
+        type : 'GET_CART'
+    })
+}
+
+export const removeItem = (id) => (dispatch) => {
+    dispatch({
+        type: 'REMOVE',
+        payload: id
+    })
+}
+

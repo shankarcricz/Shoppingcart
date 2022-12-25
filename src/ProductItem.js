@@ -1,20 +1,40 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
-import { useParams } from "react-router-dom";
-import { fetchProd, removeProd } from "./actions";
+import { Link, useParams } from "react-router-dom";
+import { addCart, fetchProd, removeProd } from "./actions";
 
 const ProductItem = (props) => {
+
     const [qnty, setQnty] = useState(1);
+    const {id, image, category, title, price} = props.product? props.product : {id : 1,image : '',
+        category:'',
+        title:'',
+        price:''
+}
+    
+
+    const formsubmit = () => {
+        const prod = props.product
+        prod.qnty = qnty
+        prod.total = price*qnty
+        props.addCart(prod)
+    }
+    const less = () => {
+        if(qnty==1) return
+        setQnty(qnty-1);
+    }
+    const more = () => {
+        setQnty(qnty+1);
+    }
 
     const { pid } = useParams();
     useEffect(() => {
         props.fetchProd(pid);
         return () => {
-            props.removeProd();
+            props.removeProd()
         }
-
     }, [])
-    const { id, title, image, category, price } = props.product;
+    
     return (
         <section className="vh-100" >
             <div className="container h-100">
@@ -41,9 +61,9 @@ const ProductItem = (props) => {
                                             <p className="small text-muted mb-4 pb-2">Qnty</p>
                                             <p className="lead fw-normal mb-0"><i className="fas fa-circle me-2"></i>
                                                 <div className="row">
-                                                    <button  className="col">-</button>
+                                                    <button onClick={less} className="col">-</button>
                                                     <input value={qnty} onChange={(e)=>setQnty(e.target.value)} className="col" type='number' />
-                                                    <button  className="col">+</button>
+                                                    <button onClick={more}  className="col">+</button>
                                                 </div>
                                             </p>
                                         </div>
@@ -51,19 +71,19 @@ const ProductItem = (props) => {
                                     <div className="col-md-2 d-flex justify-content-center">
                                         <div>
                                             <p className="small text-muted mb-4 pb-2">Quantity</p>
-                                            <p className="lead fw-normal mb-0">1</p>
+                                            <p className="lead fw-normal mb-0">{qnty}</p>
                                         </div>
                                     </div>
                                     <div className="col-md-2 d-flex justify-content-center">
                                         <div>
-                                            <p className="small text-muted mb-4 pb-2">Price</p>
+                                            <p className="small text-muted mb-4 pb-2">Price per item</p>
                                             <p className="lead fw-normal mb-0">${price}</p>
                                         </div>
                                     </div>
                                     <div className="col-md-2 d-flex justify-content-center">
                                         <div>
                                             <p className="small text-muted mb-4 pb-2">Total</p>
-                                            <p className="lead fw-normal mb-0">$799</p>
+                                            <p  className="lead fw-normal mb-0">${price * qnty}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -77,7 +97,7 @@ const ProductItem = (props) => {
                                 <div className="float-end">
                                     <p className="mb-0 me-5 d-flex align-items-center">
                                         <span className="small text-muted me-2">Order total:</span> <span
-                                            className="lead fw-normal">$799</span>
+                                            className="lead fw-normal">${price*qnty}</span>
                                     </p>
                                 </div>
 
@@ -85,8 +105,13 @@ const ProductItem = (props) => {
                         </div>
 
                         <div className="d-flex justify-content-end">
-                            <button type="button" className="btn btn-light btn-lg me-2">Continue shopping</button>
-                            <button type="button" className="btn btn-primary btn-lg">Add to cart</button>
+                            <Link to={'/products'}>
+                                <button type="button" className="btn btn-light btn-lg me-2">Continue shopping</button>
+                            </Link>
+                            
+                            <Link to={'/check-out'}>
+                            <button onClick={()=>formsubmit()} type="button" className="btn btn-primary btn-lg">Add to cart</button>
+                            </Link>
                         </div>
 
                     </div>
@@ -97,12 +122,14 @@ const ProductItem = (props) => {
 
 }
 
-const mapToStateProps = (state) => {
+const mapToStateProps = ({Product}) => {  
     return {
-        product: state.Product,
+        product: Object.values(Product)[0]
+            
     }
 }
 export default connect(mapToStateProps, {
     fetchProd: fetchProd,
-    removeProd: removeProd
+    removeProd: removeProd,
+    addCart: addCart
 })(ProductItem);
