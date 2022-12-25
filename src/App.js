@@ -5,7 +5,14 @@ import products from './Products';
 import ProductItem from './ProductItem';
 import Navbar from './Navbar';
 import Contact from './Contact';
+
+
 import Checkout from './Checkout';
+
+
+
+
+
 
 function App() {
   return (
@@ -14,9 +21,10 @@ function App() {
       <div className='container-fluid'>
         <Route path='/' exact component={Home} />
         <Route path='/products' exact component={products} />
-        <Route path='/productitem' exact component={ProductItem} />
+        <Route path='/productitem/:pid' exact component={ProductItem} />
         <Route path='/contact' exact component={Contact} />
         <Route path='/check-out' exact component={Checkout} />
+        
       </div>
     </BrowserRouter>
   );
