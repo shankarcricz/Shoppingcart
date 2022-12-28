@@ -1,32 +1,29 @@
 import { BrowserRouter, Route } from 'react-router-dom';
 import './App.css';
-import Home from './Home';
-import products from './Products';
+
+import Products from './Products';
 import ProductItem from './ProductItem';
-import Navbar from './Navbar';
-import Contact from './Contact';
+import Cart from './Cart';
 
-
-import Checkout from './Checkout';
-
-
-
+import NavbarComponent from './NavbarComponent';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
 function App() {
   return (
     <BrowserRouter>
-      <Navbar />
-      <div className='container-fluid'>
-        <Route path='/' exact component={Home} />
-        <Route path='/products' exact component={products} />
-        <Route path='/productitem/:pid' exact component={ProductItem} />
-        <Route path='/contact' exact component={Contact} />
-        <Route path='/check-out' exact component={Checkout} />
+      <NavbarComponent />
+      <div className='container-fluid mt-5'>
+        <Route path='/' exact component={Products} />
+        <Route path='/product/:id' exact component={ProductItem} />
+        <Route path='/cart' exact component={Cart} />
         
       </div>
+      <ToastContainer />
     </BrowserRouter>
+    
   );
 }
 

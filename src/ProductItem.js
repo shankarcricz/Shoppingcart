@@ -1,135 +1,74 @@
-import React, { useEffect, useState } from "react";
-import { connect } from "react-redux";
+import React, { useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { addCart, fetchProd, removeProd } from "./actions";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { addCart, addProduct } from "./store";
+const URL = 'https://fakestoreapi.com/products';
 
-const ProductItem = (props) => {
-
-    const [qnty, setQnty] = useState(1);
-    const {id, image, category, title, price} = props.product? props.product : {id : 1,image : '',
-        category:'',
-        title:'',
-        price:''
-}
-    
-
-    const formsubmit = () => {
-        const prod = props.product
-        prod.qnty = qnty
-        prod.total = price*qnty
-        props.addCart(prod)
+const ProductItem = () => {
+    const dispatch = useDispatch();
+    const product = useSelector(state => state.product[0]);
+    const { id } = useParams();
+    const addToCart = () => {
+        dispatch(addCart(product))
     }
-    const less = () => {
-        if(qnty==1) return
-        setQnty(qnty-1);
-    }
-    const more = () => {
-        setQnty(qnty+1);
-    }
-
-    const { pid } = useParams();
     useEffect(() => {
-        props.fetchProd(pid);
-        return () => {
-            props.removeProd()
+        const api = async () => {
+            const res = await axios.get(URL + `/${id}`);
+            dispatch(addProduct(res.data));
         }
+        api();
     }, [])
-    
+
+
     return (
-        <section className="vh-100" >
-            <div className="container h-100">
-                <div className="row d-flex justify-content-center align-items-center h-100">
-                    <div className="col">
-                        <p><span className="h2"> {category}</span><span className="h4"></span></p>
-
-                        <div className="card mb-4">
-                            <div className="card-body p-4">
-
-                                <div className="row align-items-center">
-                                    <div className="col-md-2">
-                                        <img src={image}
-                                            className="img-fluid" alt="Generic placeholder image" />
-                                    </div>
-                                    <div className="col-md-2 d-flex justify-content-center">
-                                        <div>
-                                            <p className="small text-muted mb-4 pb-2">Name</p>
-                                            <p className="lead fw-normal mb-0">{title}</p>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-2 d-flex justify-content-center">
-                                        <div>
-                                            <p className="small text-muted mb-4 pb-2">Qnty</p>
-                                            <p className="lead fw-normal mb-0"><i className="fas fa-circle me-2"></i>
-                                                <div className="row">
-                                                    <button onClick={less} className="col">-</button>
-                                                    <input value={qnty} onChange={(e)=>setQnty(e.target.value)} className="col" type='number' />
-                                                    <button onClick={more}  className="col">+</button>
-                                                </div>
-                                            </p>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-2 d-flex justify-content-center">
-                                        <div>
-                                            <p className="small text-muted mb-4 pb-2">Quantity</p>
-                                            <p className="lead fw-normal mb-0">{qnty}</p>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-2 d-flex justify-content-center">
-                                        <div>
-                                            <p className="small text-muted mb-4 pb-2">Price per item</p>
-                                            <p className="lead fw-normal mb-0">${price}</p>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-2 d-flex justify-content-center">
-                                        <div>
-                                            <p className="small text-muted mb-4 pb-2">Total</p>
-                                            <p  className="lead fw-normal mb-0">${price * qnty}</p>
-                                        </div>
-                                    </div>
+        <div>
+            {product &&
+                <div class="container">
+                    <div class="card">
+                        <div class="card-body">
+                            <h3 class="card-title">{product.category}</h3>
+                            <h6 class="card-subtitle">{product.title}</h6>
+                            <div class="row">
+                                <div class="col-lg-5 col-md-5 col-sm-6" style={{overflow: 'scroll'}}>
+                                    <div class="white-box text-center"><img style={{height:'400px'}} src={product.image} class="img-responsive" /></div>
                                 </div>
+                                <div class="col-lg-7 col-md-7 col-sm-6">
+                                    <h4 class="box-title mt-5">Product description</h4>
+                                    <p>{product.description}</p>
+                                    <h2 class="mt-5">
+                                        ${product.price}<small class="text-success">({Math.round((Math.random(0,1) * 60))}%off)</small>
+                                    </h2>
+                                    <button onClick={addToCart} class="btn btn-dark btn-rounded mr-1" data-toggle="tooltip" title="" data-original-title="Add to cart">
+                                        <i class="fa fa-shopping-cart"></i>
+                                    </button>
+                                    <Link to={'/cart'}>
+                                    <button onClick={addToCart} style={{marginLeft:'10px'}} class="btn btn-primary btn-rounded">Buy Now</button>
 
+                                    </Link>
+                                    <h3 class="box-title mt-5">Key Highlights</h3>
+                                    <ul class="list-unstyled">
+                                        <li><i class="fa fa-check text-success"></i>Rated {product.rating.rate}/5</li>
+                                        <li><i class="fa fa-check text-success"></i>Purchased by {product.rating.count} so far!</li>
+                                    </ul>
+                                </div>
+                              
                             </div>
                         </div>
-
-                        <div className="card mb-5">
-                            <div className="card-body p-4">
-
-                                <div className="float-end">
-                                    <p className="mb-0 me-5 d-flex align-items-center">
-                                        <span className="small text-muted me-2">Order total:</span> <span
-                                            className="lead fw-normal">${price*qnty}</span>
-                                    </p>
-                                </div>
-
-                            </div>
-                        </div>
-
-                        <div className="d-flex justify-content-end">
-                            <Link to={'/products'}>
-                                <button type="button" className="btn btn-light btn-lg me-2">Continue shopping</button>
-                            </Link>
-                            
-                            <Link to={'/check-out'}>
-                            <button onClick={()=>formsubmit()} type="button" className="btn btn-primary btn-lg">Add to cart</button>
-                            </Link>
-                        </div>
-
                     </div>
                 </div>
-            </div>
-        </section>
+
+
+
+
+
+
+
+
+
+            }
+        </div>
+
     );
-
 }
-
-const mapToStateProps = ({Product}) => {  
-    return {
-        product: Object.values(Product)[0]
-            
-    }
-}
-export default connect(mapToStateProps, {
-    fetchProd: fetchProd,
-    removeProd: removeProd,
-    addCart: addCart
-})(ProductItem);
+export default ProductItem;
