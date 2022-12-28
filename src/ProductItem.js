@@ -1,14 +1,17 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { addProduct } from "./store";
+import { addCart, addProduct } from "./store";
 const URL = 'https://fakestoreapi.com/products';
 
 const ProductItem = () => {
     const dispatch = useDispatch();
     const product = useSelector(state => state.product[0]);
     const { id } = useParams();
+    const addToCart = () => {
+        dispatch(addCart(product))
+    }
     useEffect(() => {
         const api = async () => {
             const res = await axios.get(URL + `/${id}`);
@@ -36,10 +39,13 @@ const ProductItem = () => {
                                     <h2 class="mt-5">
                                         ${product.price}<small class="text-success">({Math.round((Math.random(0,1) * 60))}%off)</small>
                                     </h2>
-                                    <button class="btn btn-dark btn-rounded mr-1" data-toggle="tooltip" title="" data-original-title="Add to cart">
+                                    <button onClick={addToCart} class="btn btn-dark btn-rounded mr-1" data-toggle="tooltip" title="" data-original-title="Add to cart">
                                         <i class="fa fa-shopping-cart"></i>
                                     </button>
-                                    <button style={{marginLeft:'10px'}} class="btn btn-primary btn-rounded">Buy Now</button>
+                                    <Link to={'/cart'}>
+                                    <button onClick={addToCart} style={{marginLeft:'10px'}} class="btn btn-primary btn-rounded">Buy Now</button>
+
+                                    </Link>
                                     <h3 class="box-title mt-5">Key Highlights</h3>
                                     <ul class="list-unstyled">
                                         <li><i class="fa fa-check text-success"></i>Rated {product.rating.rate}/5</li>

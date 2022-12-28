@@ -19,9 +19,6 @@ const Products = () => {
         
     }, [])
 
-
-
-
     const renderList =products[0] && products[0].map((product) => {
         return (
             <div className='col mb-5 style' key={product.id}>
