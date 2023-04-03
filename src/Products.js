@@ -1,51 +1,69 @@
 import React, { useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
-import { addProduct, addProducts } from './store';
+import { addProduct, addProducts, setTab, useFetchElectronicsQuery, useFetchJewelQuery, useFetchMensQuery, useFetchProductsQuery, useFetchWomensQuery } from './store';
+import Card from './Card';
+import { Link } from 'react-router-dom';
+import './product.css'
+
+
 
 
 const Products = () => {
-    
-    const URL =  'https://fakestoreapi.com/products';
-    const products = useSelector(state=> state.products);
-    const dispatch = useDispatch();
-    useEffect(() => {
-        const api = async () => {
-            const res = await axios.get(URL);
-            dispatch(addProducts(res.data));
-        }
-        api();
-        
-    }, [])
+    //prouctslice is not being used any more!!
+    const selectedTab = useSelector(state => {
+        return state.ProductList[0]
+    })
+    let products;
+    const result1 = useFetchProductsQuery()
+    const result2 = useFetchElectronicsQuery()
+    const result3 = useFetchJewelQuery()
+    const result4 = useFetchMensQuery()
+    const result5 = useFetchWomensQuery()
 
-    const renderList =products[0] && products[0].map((product) => {
+    if(selectedTab==='All'){
+        products = result1.data
+    } else if(selectedTab==='Electronics'){
+        products = result2.data
+    } else if(selectedTab === 'Jewel') {
+        products = result3.data
+    } else if (selectedTab === 'Men') {
+        products = result4.data
+    } else if (selectedTab === 'Women') {
+        products = result5.data
+    }
+
+
+    const dispatch = useDispatch()
+    const renderList = products && products.map((product) => {
         return (
-            <div className='col mb-5 style' key={product.id}>
-                <div className="ui card">
-                    <div className="content">
-                        <div className="right floated meta">{product.title}</div>
-                        <img className="ui avatar image" src={product.image} /> {product.description}
-                        <Link to={`/product/${product.id}`} >
-                        <h3>Click here to see details</h3>
-                        </Link>
-                    </div>
-                    <div className="content">
-                        <span className="right floated">
-                            <i className="heart outline like icon"></i>
-                            {product.rating && product.rating.rate}
-                        </span>
-                        <i className="comment icon"></i>
-                        {product.rating && product.rating.count} counts
-                    </div>
-                    
-                </div>
-            </div>
-    );
+            <Card product={product} />
+        );
     });
+
+    
+
     return (
-        <div className='row mt-5'>
-            {renderList}
+        <div className='container'>
+            <nav aria-label="Page navigation example">
+                <ul className="pagination">
+                    <li className="page-item" onClick={() => {dispatch(setTab("All"))}}><a className={selectedTab==='All'?'page-link active':'page-link'} href="javascript:void(0);">All</a></li>
+                    
+                    <li className="page-item" onClick={() => {dispatch(setTab("Jewel"))}} ><a className={selectedTab==='Jewel'?'page-link active':'page-link'} href="javascript:void(0);">Jewellery</a></li>
+                    
+                    
+                    <li className="page-item" onClick={() => {dispatch(setTab("Electronics"))}}><a className={selectedTab==='Electronics'?'page-link active':'page-link'} href="javascript:void(0);">Electronics</a></li>
+                    
+                    
+                    <li className="page-item" onClick={() => {dispatch(setTab("Men"))}}><a className={selectedTab==='Men'?'page-link active':'page-link'} href="javascript:void(0);">Men's clothing</a></li>
+                    
+                    
+                    <li className="page-item" onClick={() => {dispatch(setTab("Women"))}}><a className={selectedTab==='Women'?'page-link active':'page-link'} href="javascript:void(0);">Women's clothing</a></li>
+                    
+                </ul>
+            </nav>
+            <div className='row'>
+                {renderList}
+            </div>
         </div>
     );
 }

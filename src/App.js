@@ -15,11 +15,10 @@ function App() {
   return (
     <BrowserRouter>
       <NavbarComponent />
-      <div className='container-fluid mt-5'>
+      <div className='header'>
         <Route path='/' exact component={Products} />
         <Route path='/product/:id' exact component={ProductItem} />
         <Route path='/cart' exact component={Cart} />
-        
       </div>
       <ToastContainer />
     </BrowserRouter>
