@@ -1,1 +1,20 @@
+*{
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif
+}
+.card {
+    box-shadow:slategrey;
+    margin: 10px;
+    outline: 2px solid grey;
+    cursor: pointer;
+}
 
+.header {
+    margin-top: 70px;
+}
+.cardD {
+    outline: 3px solid grey;
+}
+
+.style1{
+    margin-top: auto;
+}
