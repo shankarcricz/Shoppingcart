@@ -2,3 +2,26 @@
     outline: 2px solid black;
     opacity: 0.5;
 }
+
+.redirection {
+    animation: ani 3s ease-in;
+
+}
+
+@keyframes ani {
+    0% {
+        transform: translatex(-150%);
+    }
+    25% {
+        transform: translatex(150%);
+    }
+    50% {
+        transform: translatex(-150%);
+    }
+    75% {
+        transform: translatex(150%);
+    }
+    100% {
+        transform: translatex(0%);
+    }
+}

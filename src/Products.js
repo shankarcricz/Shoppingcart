@@ -44,6 +44,9 @@ const Products = () => {
 
     return (
         <div className='container'>
+            <a href='https://vibify-eight.vercel.app/'>
+          <button class="btn btn-dark redirection" style={{marginLeft:"40%"}}>Checkout my other work (Music Application)</button>
+          </a>
             <nav aria-label="Page navigation example">
                 <ul className="pagination">
                     <li className="page-item" onClick={() => {dispatch(setTab("All"))}}><a className={selectedTab==='All'?'page-link active':'page-link'} href="javascript:void(0);">All</a></li>
