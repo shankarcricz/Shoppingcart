@@ -8,6 +8,8 @@ import Cart from './Cart';
 import NavbarComponent from './NavbarComponent';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import GoogleAuth from './GoogleAuth';
+import { GoogleOAuthProvider } from '@react-oauth/google';
 
 
 
@@ -19,6 +21,7 @@ function App() {
         <Route path='/' exact component={Products} />
         <Route path='/product/:id' exact component={ProductItem} />
         <Route path='/cart' exact component={Cart} />
+        
       </div>
       <ToastContainer />
     </BrowserRouter>
