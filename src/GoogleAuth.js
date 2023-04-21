@@ -8,7 +8,7 @@ function GoogleAuth() {
         console.log(response);
       }
     return(
-        <div>
+        <div style={{marginLeft:'auto', marginRight:'10px'}}>
             <GoogleOAuthProvider 
                 clientId='106729516681-btv0obqo8245etblc5lsmdm62c8msad1.apps.googleusercontent.com'>
              <GoogleLogin
