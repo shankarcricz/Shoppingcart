@@ -4,6 +4,9 @@ import { addProduct, addProducts, setTab, useFetchElectronicsQuery, useFetchJewe
 import Card from './Card';
 import { Link } from 'react-router-dom';
 import './product.css'
+import { GoogleOAuthProvider } from '@react-oauth/google';
+import GoogleAuth from './GoogleAuth';
+
 
 
 
@@ -43,6 +46,7 @@ const Products = () => {
     
 
     return (
+        <div style={{background:'pink'}}>
         <div className='container'>
             <a href='https://vibify-eight.vercel.app/'>
           <button class="btn btn-dark redirection" style={{marginLeft:"40%"}}>Checkout my other work (Music Application)</button>
@@ -67,6 +71,8 @@ const Products = () => {
             <div className='row'>
                 {renderList}
             </div>
+            <GoogleAuth />
+        </div>
         </div>
     );
 }

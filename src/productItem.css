@@ -1,0 +1,16 @@
+.cardD {
+    outline: none !important;
+}
+
+.img-responsive {
+    aspect-ratio: 3/2;
+    object-fit: contain;
+    width: -webkit-fill-available;
+    mix-blend-mode: multiply;
+}
+.contentRight {
+    background: black;
+    color: white;
+    border-radius: 50px;
+}
+
