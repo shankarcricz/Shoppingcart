@@ -10,7 +10,7 @@ function GoogleAuth() {
     return(
         <div>
             <GoogleOAuthProvider 
-                clientId='106729516681-vlhsmosrl8bd6gsooo3hks2o3m2klila.apps.googleusercontent.com'>
+                clientId='106729516681-btv0obqo8245etblc5lsmdm62c8msad1.apps.googleusercontent.com'>
              <GoogleLogin
               render={(renderProps) => (
                 <button
