@@ -71,7 +71,6 @@ const Products = () => {
             <div className='row'>
                 {renderList}
             </div>
-            <GoogleAuth />
         </div>
         </div>
     );
